@@ -1,42 +1,49 @@
 <?php
 function task1 (array $arr, $flag = true){
-    if ($flag){
-        return array_map(function ($value){
-            echo '<p>' . $value . '</p>';
-        },$arr);
+    if ($flag === true) {
+        echo implode(' ', $arr);
     }else{
         return array_map(function ($value){
-            echo $value ;
+            echo '<p>' . $value . '</p>';
         },$arr);
     }
 }
 
 function task2 (){
-    $arr = array_slice(func_get_args(),1);
-    switch (func_get_args()[0]) {
+    $numbers = array_slice(func_get_args(),1);
+    $operator = func_get_args()[0];
+
+    echo implode($operator, $numbers) . '=';
+    switch ($operator) {
         case '+':
-            foreach ($arr as $value) { $value += $value; }
+            foreach ($numbers as $value) {
+                $value += $value;
+            }
             break;
         case '-':
-            foreach ($arr as $value) { $value -= $value; }
+            foreach ($numbers as $value) {
+               $value -= $value;
+            }
             break;
         case '*':
-            foreach ($arr as $value) { $value *= $value; }
+            foreach ($numbers as $value) {
+                $value *= $value;
+            }
             break;
         case '/':
-            foreach ($arr as $value) {
+            foreach ($numbers as $value) {
                 $value === 0 ? 'Ops you can\'t / on 0' : $value /= $value;
             }
     }
     return isset($value) ? $value : 'Something goes wrong';
 }
 
-function task3 (int $num, int $num2){
-    if (isset($num) && isset($num2)){
+function task3 (int $rows, int $cols){
+    if (isset($rows) && isset($cols)){
         echo '<table>';
-        for ($i = 1; $i <= $num; $i++){
+        for ($i = 1; $i <= $rows; $i++){
             echo '<tr>';
-            for ($j = 1; $j <= $num2; $j++){
+            for ($j = 1; $j <= $cols; $j++){
                 if ($i * $j % 2){
                     echo '<td style="background: aqua">';
                 }else{
@@ -60,18 +67,12 @@ function task4 (){
 }
 
 function task5 ($str,$symbol,$replacement = ''){
-    $res = str_replace( $symbol, $replacement, $str);
-    return $res . '<br>';
+    return str_replace( $symbol, $replacement, $str);
 }
 
 function task6 ($file_name,$data) : string {
-    $handle = fopen($file_name, 'a') or die('Cannot open file:  '.$file_name);
-    $handle2 = fopen($file_name, 'r') or die('Cannot open file:  '.$file_name);
-    $contents = fread($handle2, filesize($file_name));
-
-    fwrite($handle, $data . PHP_EOL);
-    fclose($handle);
-    fclose($handle2);
+    file_put_contents($file_name,$data,FILE_APPEND);
+    $contents = file_get_contents($file_name);
 
     return $contents;
 }
